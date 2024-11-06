@@ -1,0 +1,20 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../../../data/sye40/prisoner_logs/diffuser"
+		},
+		{
+			"path": "../../../data/prisoner_datasets"
+		},
+		{
+			"path": "../../../data/sye40/prisoner_logs/MRS"
+		},
+		{
+			"path": "../../../data/sye40/mrs_figures"
+		}
+	],
+	"settings": {}
+}

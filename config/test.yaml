@@ -1,0 +1,22 @@
+data_dir: '/home/sean/flight_data/N172CK/converted_train'
+horizon: 60
+history_length: 10
+include_current: true
+features_to_load:
+  - longitude
+  - latitude
+  - altitude
+packed_features:
+  - longitude
+  - latitude
+  - altitude
+normalization:
+  longitude:
+    min: -76.07
+    max: -73.91
+  latitude:
+    min: 40.28
+    max: 41.55
+  altitude:
+    min: 0
+    max: 20000
