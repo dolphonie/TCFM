@@ -41,10 +41,9 @@ base = {
         'use_wavelet': False,
         # 'datapath': '/home/sean/flight_data/N172CK/converted_train',
         # 'test_datapath': '/home/sean/flight_data/N172CK/converted_train',
-        'datapath': '/home/sye40/TCFM/data/train',
-        'test_datapath': '/home/sye40/TCFM/data/test',
+        'datapath': '/home/pdkao_google_com/TCFM/data/train',
+        'test_datapath': '/home/pdkao_google_com/TCFM/data/test',
         'clip_denoised': True,
-        'termination_penalty': None,
         'cont': None,
         ## dataset specific configuration
         'history_length': 10,

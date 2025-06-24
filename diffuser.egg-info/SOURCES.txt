@@ -1,3 +1,4 @@
+LICENSE
 README.md
 setup.py
 diffuser/__init__.py
@@ -6,21 +7,10 @@ diffuser.egg-info/SOURCES.txt
 diffuser.egg-info/dependency_links.txt
 diffuser.egg-info/top_level.txt
 diffuser/datasets/__init__.py
-diffuser/datasets/aircraft_sidoti.py
-diffuser/datasets/aircraft_sidoti_separate.py
-diffuser/datasets/aircraft_sidoti_separate_last_n.py
-diffuser/datasets/aircraft_sidoti_separate_wavelet.py
 diffuser/datasets/buffer.py
 diffuser/datasets/d4rl.py
-diffuser/datasets/heterogeneous.py
-diffuser/datasets/language.py
 diffuser/datasets/normalization.py
 diffuser/datasets/preprocessing.py
-diffuser/datasets/prisoner.py
-diffuser/datasets/prisoner_blue_agent.py
-diffuser/datasets/prisoner_cond_detections.py
-diffuser/datasets/prisoner_condition.py
-diffuser/datasets/prisoner_wavelet.py
 diffuser/datasets/sequence.py
 diffuser/datasets/sequence_dataset.py
 diffuser/environments/__init__.py
@@ -36,10 +26,8 @@ diffuser/models/clip_encoder.py
 diffuser/models/diffusion.py
 diffuser/models/encoder.py
 diffuser/models/helpers.py
-diffuser/models/sf2m.py
 diffuser/models/temporal.py
 diffuser/models/temporal_film.py
-diffuser/models/temporal_film_language.py
 diffuser/models/transformer.py
 diffuser/utils/__init__.py
 diffuser/utils/arrays.py
