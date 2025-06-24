@@ -25,8 +25,9 @@ def process_directory(input_dir, output_base_dir):
     os.makedirs(output_base_dir, exist_ok=True)
     
     # Process each CSV file in the input directory
+    counter = 0
     for filename in os.listdir(input_dir):
-        if filename.endswith('.csv'):
+        if '.csv' in filename:
             # Get the file number (assuming filenames are like '0.csv', '1.csv', etc.)
             file_number = os.path.splitext(filename)[0]
             
@@ -37,6 +38,10 @@ def process_directory(input_dir, output_base_dir):
             # Process the CSV file
             csv_file_path = os.path.join(input_dir, filename)
             csv_to_npz(csv_file_path, output_dir)
+            
+        counter+=1
+        if counter > 100:
+            break
 
 def main():
     parser = argparse.ArgumentParser(description="Convert multiple CSV files to NPZ files")

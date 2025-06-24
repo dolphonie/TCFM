@@ -68,7 +68,7 @@ base = {
         },
         ## serialization
         # 'logbase': '/home/sean/prisoner_logs/aircraft_sidoti_last_n_IROS24/',
-        'logbase': '/coc/data/sye40/prisoner_logs/aircraft_sidoti_weather/',
+        'logbase': '/home/pdkao_google_com/train_logs/',
         'prefix': 'cfm/',
         'exp_name': watch(diffusion_args_to_watch),
         ## training

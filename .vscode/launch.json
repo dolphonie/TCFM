@@ -9,6 +9,15 @@
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}",
             "args": ["--config", "config.cfm_aircraft"]
+        },
+        {
+            "name": "Train Involi",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "train.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "args": ["--config", "config.involi_aircraft"]
         }
     ]
 }
