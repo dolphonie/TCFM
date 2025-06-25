@@ -410,7 +410,7 @@ class CFM(nn.Module):
         #     global_cond = global_cond
         # )
         traj = torchdiffeq.odeint(
-            lambda t, x: self.model.forward(t, x, global_cond=global_cond),
+            lambda t, x: self.model.module.forward(t, x, global_cond=global_cond),
             torch.randn(shape).to(self.device),
             torch.linspace(0, 1, self.n_timesteps + 1).to(self.device),
             atol=1e-4,

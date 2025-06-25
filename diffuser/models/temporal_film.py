@@ -216,13 +216,12 @@ class ConditionalUnet1D(nn.Module):
             "number of parameters: %e", sum(p.numel() for p in self.parameters())
         )
 
-
-
     def forward(self, 
             t: Union[torch.Tensor, float, int], 
             x: torch.Tensor,
-            cond_data = torch.Tensor,
-            cond_lengths = torch.Tensor, 
+            global_cond = None,
+            cond_data: torch.Tensor = None,
+            cond_lengths: torch.Tensor = None, 
             local_cond = None):
         """
         x: (B,T,input_dim)
@@ -250,7 +249,8 @@ class ConditionalUnet1D(nn.Module):
         global_feature = self.diffusion_step_encoder(timesteps)
 
         # print(global_cond)
-        global_cond = {"detections": pack_padded_sequence(cond_data, cond_lengths.cpu(),batch_first=True, enforce_sorted=False)}
+        if global_cond is None and cond_data is not None:
+            global_cond = {"detections": pack_padded_sequence(cond_data, cond_lengths.cpu(),batch_first=True, enforce_sorted=False)}
         if global_cond is not None:               
             if 'hideouts' in global_cond.keys():
                 global_feature = torch.cat([global_cond['hideouts'], global_feature], axis=-1)
