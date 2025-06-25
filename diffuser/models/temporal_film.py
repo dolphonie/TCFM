@@ -8,6 +8,7 @@ from torchsummary import summary
 
 from diffuser.models.temporal import TemporalUnet
 from diffuser.models.encoder import EncoderRNN
+from torch.nn.utils.rnn import pad_sequence, pack_padded_sequence
 # from torchcfm.models.unet import UNetModel
 
 # from diffusion_policy.model.diffusion.conv1d_components import (
@@ -219,8 +220,9 @@ class ConditionalUnet1D(nn.Module):
 
     def forward(self, 
             t: Union[torch.Tensor, float, int], 
-            x: torch.Tensor, 
-            global_cond = None,
+            x: torch.Tensor,
+            cond_data = torch.Tensor,
+            cond_lengths = torch.Tensor, 
             local_cond = None):
         """
         x: (B,T,input_dim)
@@ -248,6 +250,7 @@ class ConditionalUnet1D(nn.Module):
         global_feature = self.diffusion_step_encoder(timesteps)
 
         # print(global_cond)
+        global_cond = {"detections": pack_padded_sequence(cond_data, cond_lengths.cpu(),batch_first=True, enforce_sorted=False)}
         if global_cond is not None:               
             if 'hideouts' in global_cond.keys():
                 global_feature = torch.cat([global_cond['hideouts'], global_feature], axis=-1)

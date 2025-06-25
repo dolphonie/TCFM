@@ -60,7 +60,7 @@ class Trainer(object):
         bucket=None,
     ):
         super().__init__()
-        self.model = nn.DataParallel(diffusion_model)
+        self.model = diffusion_model
         self.ema_model = self.model
         self.ema = EMA(ema_decay)
         # self.ema_model = copy.deepcopy(self.model)
@@ -133,7 +133,7 @@ class Trainer(object):
                 batch = next(self.dataloader)
                 # batch = batch_to_device(batch)
 
-                loss, infos = self.model.module.loss(*batch)
+                loss, infos = self.model.loss(*batch)
                 loss = loss / self.gradient_accumulate_every
                 loss.backward()
                 running_loss += loss.item()
@@ -297,7 +297,7 @@ class Trainer(object):
             cond = [(np.array([]), np.array([]))] * batch_size
 
             ## [ n_samples x horizon x (action_dim + observation_dim) ]
-            samples = self.ema_model.module.conditional_sample(global_cond, cond)
+            samples = self.ema_model.conditional_sample(global_cond, cond)
             samples = to_np(samples)
 
             ## [ n_samples x horizon x observation_dim ]

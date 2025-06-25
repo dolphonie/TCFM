@@ -6,6 +6,7 @@ import copy
 from torchcfm.conditional_flow_matching import *
 from torchdyn.core import NeuralODE
 import torchdiffeq
+from torch.nn.utils.rnn import pad_packed_sequence, pack_padded_sequence
 # from torchcfm.models.unet import UNetModel
 
 from diffuser.models.helpers import get_schedule_jump
@@ -62,7 +63,7 @@ class CFM(nn.Module):
         self.observation_dim = observation_dim
         self.action_dim = action_dim
         self.transition_dim = observation_dim + action_dim
-        self.model = model
+        self.model = nn.DataParallel(model)
 
         sigma = 0.0
         # self.FM = ExactOptimalTransportConditionalFlowMatcher(sigma=sigma)
@@ -553,6 +554,7 @@ class CFM(nn.Module):
         for k, v in global_cond.items():
             if type(v) is torch.Tensor:
                 global_cond[k] = v.to(self.device)
+                
         batch_size = len(x)
         t = torch.randint(0, self.n_timesteps, (batch_size,), device=x.device).long()
         
@@ -560,7 +562,13 @@ class CFM(nn.Module):
         x0 = torch.randn_like(x1)
         t, xt, ut = self.FM.sample_location_and_conditional_flow(x0, x1)
 
-        vt = self.model(t, xt, global_cond=global_cond)
+        if 'hideouts' in global_cond:
+            print("PATRICK Hideouts detected")
+        if 'class' in global_cond:
+            print('PATRICK class detected')
+        
+        global_data, global_lengths = pad_packed_sequence(global_cond["detections"], batch_first=True)
+        vt = self.model(t, xt, cond_data=global_data,cond_lengths=global_lengths)
         loss = torch.mean((vt - ut) ** 2)
         return loss, {'loss': loss.item()}
 

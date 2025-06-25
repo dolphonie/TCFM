@@ -14,7 +14,8 @@ class EncoderRNN(nn.Module):
     
     @property
     def device(self):
-        return next(self.parameters()).device
+        # return next(self.parameters()).device
+        return 'cuda'
 
     def forward(self, x, hidden_state=None):
         if type(x) == torch.nn.utils.rnn.PackedSequence:
