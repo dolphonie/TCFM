@@ -84,7 +84,7 @@ class Trainer(object):
         self.collate_fn = self.dataset.collate_fn
 
         self.dataloader = cycle(torch.utils.data.DataLoader(
-            self.dataset, batch_size=train_batch_size, num_workers=1, shuffle=True, pin_memory=True, collate_fn=self.collate_fn
+            self.dataset, batch_size=train_batch_size, num_workers=20, shuffle=True, pin_memory=True, collate_fn=self.collate_fn
         ))
         self.test_dataset = test_dataset
 
@@ -93,7 +93,7 @@ class Trainer(object):
 
         batch_collate_fn = lambda batch: self.collate_fn_repeat(batch, self.n_test_samples)
         self.test_dataloader = cycle(torch.utils.data.DataLoader(
-            self.test_dataset, batch_size=self.n_test_batch_size, num_workers=1, shuffle=True, pin_memory=True, collate_fn=batch_collate_fn))
+            self.test_dataset, batch_size=self.n_test_batch_size, num_workers=20, shuffle=True, pin_memory=True, collate_fn=batch_collate_fn))
 
         vis_fn = lambda batch: self.collate_fn_repeat(batch, 10)
         self.dataloader_vis = cycle(torch.utils.data.DataLoader(
@@ -165,46 +165,46 @@ class Trainer(object):
 
             if self.sample_freq and self.step % self.sample_freq == 0:
                 pass
-                # gt_list = []
-                # sample_list = []
-                # # add test dataset here
-                # with torch.no_grad():
-                #     # running_test_loss = 0.0
-                #     # for _ in range(self.gradient_accumulate_every):
-                #     #     batch = next(self.test_dataloader)
-                #     #     loss, infos = self.model.loss(*batch)
-                #     #     running_test_loss += loss / self.gradient_accumulate_every
-                #     # self.writer.add_scalar('test_loss', running_test_loss, self.step)
-                #     for i in range(25):
-                #         # record ade
-                #         batch = self.test_dataloader.__next__()
-                #         data, global_cond, conditions = batch
-                #         sample_type = 'original'
-                #         samples = self.model.conditional_sample(global_cond, conditions, sample_type=sample_type)
-                #         samples = to_np(samples)
+                gt_list = []
+                sample_list = []
+                # add test dataset here
+                with torch.no_grad():
+                    # running_test_loss = 0.0
+                    # for _ in range(self.gradient_accumulate_every):
+                    #     batch = next(self.test_dataloader)
+                    #     loss, infos = self.model.loss(*batch)
+                    #     running_test_loss += loss / self.gradient_accumulate_every
+                    # self.writer.add_scalar('test_loss', running_test_loss, self.step)
+                    for i in range(25):
+                        # record ade
+                        batch = self.test_dataloader.__next__()
+                        data, global_cond, conditions = batch
+                        sample_type = 'original'
+                        samples = self.model.conditional_sample(global_cond, conditions, sample_type=sample_type)
+                        samples = to_np(samples)
 
-                #         ## [ n_samples x horizon x observation_dim ]
-                #         normed_observations = samples
+                        ## [ n_samples x horizon x observation_dim ]
+                        normed_observations = samples
 
-                #         ## [ n_samples x (horizon + 1) x observation_dim ]
-                #         observations = self.test_dataset.unnormalize(normed_observations)
+                        ## [ n_samples x (horizon + 1) x observation_dim ]
+                        observations = self.test_dataset.unnormalize(normed_observations)
 
-                #         gt_path = self.test_dataset.unnormalize(batch[0])
-                #         gt_list.append(gt_path)
-                #         sample_list.append(observations)
+                        gt_path = self.test_dataset.unnormalize(batch[0])
+                        gt_list.append(gt_path)
+                        sample_list.append(observations)
 
-                #     dist_min, dist_averages = get_stats_batch(gt_list, sample_list, None, self.n_test_batch_size, self.n_test_samples)
-                #     self.writer.add_scalars(f'ade_min', {
-                #         '0': np.mean(dist_min[:, 0])/2428,
-                #         '30': np.mean(dist_min[:, 29])/2428,
-                #         '60': np.mean(dist_min[:, 59])/2428,
-                #     }, self.step)
+                    dist_min, dist_averages = get_stats_batch(gt_list, sample_list, None, self.n_test_batch_size, self.n_test_samples)
+                    self.writer.add_scalars(f'ade_min', {
+                        '0': np.mean(dist_min[:, 0])/2428,
+                        '30': np.mean(dist_min[:, 29])/2428,
+                        '60': np.mean(dist_min[:, 59])/2428,
+                    }, self.step)
 
-                #     self.writer.add_scalars(f'ade_average', {
-                #         '0': np.mean(dist_averages[:, 0])/2428,
-                #         '30': np.mean(dist_averages[:, 29])/2428,
-                #         '60': np.mean(dist_averages[:, 59])/2428,
-                #     }, self.step)
+                    self.writer.add_scalars(f'ade_average', {
+                        '0': np.mean(dist_averages[:, 0])/2428,
+                        '30': np.mean(dist_averages[:, 29])/2428,
+                        '60': np.mean(dist_averages[:, 59])/2428,
+                    }, self.step)
 
 
             self.step += 1

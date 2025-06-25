@@ -11,7 +11,7 @@ import os
 
 class Parser(utils.Parser):
     dataset: str = 'maze2d-large-v1'
-    config: str = 'config.maze2d'
+    config: str = 'config.involi_aircraft'
 
 args = Parser().parse_args('diffusion')
 

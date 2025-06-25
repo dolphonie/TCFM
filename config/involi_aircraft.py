@@ -41,16 +41,16 @@ base = {
         'use_wavelet': False,
         # 'datapath': '/home/sean/flight_data/N172CK/converted_train',
         # 'test_datapath': '/home/sean/flight_data/N172CK/converted_train',
-        'datapath': '/home/pdkao_google_com/TCFM/data/train',
-        'test_datapath': '/home/pdkao_google_com/TCFM/data/test',
+        'datapath': '/home/pdkao_google_com/TCFM/data/train_subset_involi',
+        'test_datapath': '/home/pdkao_google_com/TCFM/data/test_involi',
         'clip_denoised': True,
         'cont': None,
         ## dataset specific configuration
         'history_length': 10,
         'include_current': True,
-        'predict_features': ['timestamp', 'longitude', 'latitude', 'altitude'],
-        # 'packed_features': ['stapac_sfc', 'airtmp_sig', 'lndsea_sfc', 'relhum_sig', 'terrht_sfc', 'trpres_sfc', 'ttlprs_sig', 'uutrue_sig', 'vvtrue_sig', 'turbke_sig', 'longitude', 'latitude', 'altitude'],
-        'packed_features': ['timestamp', 'longitude', 'latitude', 'altitude'],
+        'predict_features': ['timestamp', 'long', 'lat', 'alt'],
+        # 'packed_features': ['stapac_sfc', 'airtmp_sig', 'lndsea_sfc', 'relhum_sig', 'terrht_sfc', 'trpres_sfc', 'ttlprs_sig', 'uutrue_sig', 'vvtrue_sig', 'turbke_sig', 'long', 'lat', 'alt'],
+        'packed_features': ['timestamp', 'long', 'lat', 'alt'],
         'normalization': {
             'stapac_sfc': {'min': -0.08, 'max': 0.09},
             'airtmp_sig': {'min': 0.84, 'max': 13.89},
@@ -62,9 +62,9 @@ base = {
             'uutrue_sig': {'min': -2.59, 'max': 4.75},
             'vvtrue_sig': {'min': -3.19, 'max': 3.76},
             'turbke_sig': {'min': -0.28, 'max': 1.14},
-            'longitude': {'min': -174.51438868550943, 'max': 179.9995279937459},
-            'latitude': {'min': -86.99611902236938, 'max': 89.509804},
-            'altitude': {'min': -17598.105439005703, 'max': 206041.90305850637},
+            'long': {'min': -174.51438868550943, 'max': 179.9995279937459},
+            'lat': {'min': -86.99611902236938, 'max': 89.509804},
+            'alt': {'min': -17598.105439005703, 'max': 206041.90305850637},
             'timestamp': {'min': 1708081917, 'max': 1781959757}
         },
         ## serialization
@@ -76,7 +76,7 @@ base = {
         'n_steps_per_epoch': 10000,
         'loss_type': 'l2',
         'n_train_steps': 500000,
-        'batch_size': 32,
+        'batch_size': 65536,
         'learning_rate': 2e-4,
         'gradient_accumulate_every': 2,
         'ema_decay': 0.995,
@@ -90,7 +90,7 @@ base = {
         'device': 'cuda',
     },
     'plan': {
-        'batch_size': 1,
+        'batch_size': 16,
         'device': 'cuda',
         ## diffusion model
         'horizon': 60,
