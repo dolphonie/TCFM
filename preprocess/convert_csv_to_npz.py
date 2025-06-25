@@ -39,9 +39,9 @@ def process_directory(input_dir, output_base_dir):
             csv_file_path = os.path.join(input_dir, filename)
             csv_to_npz(csv_file_path, output_dir)
             
-        counter+=1
-        if counter > 100:
-            break
+        # counter+=1
+        # if counter > 100:
+        #     break
 
 def main():
     parser = argparse.ArgumentParser(description="Convert multiple CSV files to NPZ files")
