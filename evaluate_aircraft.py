@@ -14,11 +14,11 @@ torch.manual_seed(SEED)
 np.random.seed(SEED)
 
 class Args:
-    loadpath = '/coc/data/sye40/prisoner_logs/aircraft_sidoti_weather/cfm/H60_T100/20240828-1739/'
+    loadpath = '/home/pdkao_google_com/wing-involi-autopilot-data/20250625-2215/'
     # loadpath = '/coc/data/sye40/prisoner_logs/aircraft_sidoti_weather/cfm/H60_T100/20240828-1909'
     # loadpath = '/coc/data/sye40/prisoner_logs/aircraft_sidoti_weather/cfm/H60_T100/20240829-1857/'
     # diffusion_epoch = "latest"
-    diffusion_epoch = 250000
+    diffusion_epoch = 1000
     n_samples = 4
     device = 'cuda:0'
 
@@ -29,7 +29,7 @@ def cycle(dl):
 
 def main():
     args = Args()
-    datapath = '/home/sye40/TCFM/data/test'
+    datapath = '/home/pdkao_google_com/TCFM/data/val_involi_fixed_subset'
     
     # Load model and dataset
     trainer, dataset = utils.load_model(args.loadpath, epoch=args.diffusion_epoch, dataset_path=datapath)
@@ -77,7 +77,7 @@ def main():
     save_results(args.loadpath, dist_min, dist_averages)
 
 def render_sample(renderer, index, gt_path, observations, conditions):
-    logdir = './figures/aircraft_weather/'
+    logdir = './figures/involi/'
     os.makedirs(logdir, exist_ok=True)
 
     # Render ground truth

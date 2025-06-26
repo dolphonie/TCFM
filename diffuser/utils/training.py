@@ -93,7 +93,7 @@ class Trainer(object):
 
         batch_collate_fn = lambda batch: self.collate_fn_repeat(batch, self.n_test_samples)
         self.test_dataloader = cycle(torch.utils.data.DataLoader(
-            self.test_dataset, batch_size=self.n_test_batch_size, num_workers=20, shuffle=True, pin_memory=True, collate_fn=batch_collate_fn))
+            self.test_dataset, batch_size=self.n_test_batch_size, num_workers=10, shuffle=True, pin_memory=True, collate_fn=batch_collate_fn))
 
         vis_fn = lambda batch: self.collate_fn_repeat(batch, 10)
         self.dataloader_vis = cycle(torch.utils.data.DataLoader(

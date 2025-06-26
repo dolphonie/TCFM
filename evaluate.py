@@ -9,8 +9,6 @@ import pdb
 import matplotlib.pyplot as plt
 import diffuser.utils as utils
 from diffuser.utils.arrays import batch_to_device, to_np, to_device, apply_dict
-from diffuser.datasets.prisoner import PrisonerDatasetDetections
-from diffuser.utils.rendering import PrisonerRendererGlobe, PrisonerRenderer
 import pyproj
 
 import math
