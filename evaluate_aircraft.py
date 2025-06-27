@@ -18,7 +18,7 @@ class Args:
     # loadpath = '/coc/data/sye40/prisoner_logs/aircraft_sidoti_weather/cfm/H60_T100/20240828-1909'
     # loadpath = '/coc/data/sye40/prisoner_logs/aircraft_sidoti_weather/cfm/H60_T100/20240829-1857/'
     # diffusion_epoch = "latest"
-    diffusion_epoch = 1000
+    diffusion_epoch = 14000
     n_samples = 4
     device = 'cuda:0'
 
@@ -52,7 +52,7 @@ def main():
     gt_list = []
     sample_list = []
 
-    for i in tqdm.tqdm(range(100)):
+    for i in tqdm.tqdm(range(20)):
         batch = next(dataloader_vis)
         data, global_cond, conditions = batch
 
@@ -67,7 +67,7 @@ def main():
         sample_list.append(observations)
 
         if render:
-            render_sample(renderer, i, gt_path, observations, conditions)
+            render_sample(batch, renderer, i, gt_path, observations, conditions)
 
     # Evaluate results
     total_area = 2428 * 2428
@@ -76,7 +76,7 @@ def main():
     print_results(dist_min, dist_averages)
     save_results(args.loadpath, dist_min, dist_averages)
 
-def render_sample(renderer, index, gt_path, observations, conditions):
+def render_sample(batch, renderer, index, gt_path, observations, conditions):
     logdir = './figures/involi/'
     os.makedirs(logdir, exist_ok=True)
 
@@ -92,6 +92,7 @@ def render_sample(renderer, index, gt_path, observations, conditions):
     # Save numpy arrays
     np.save(os.path.join(logdir, f'{index}.npy'), observations)
     np.save(os.path.join(logdir, f'{index}_gt.npy'), gt_path)
+    np.save(os.path.join(logdir, f'{index}_batch.npy'), batch)
 
 def print_results(dist_min, dist_averages):
     for t in [0, 29, 59]:
